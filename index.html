@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen English Lesson: Present Perfect & Past Perfect</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="progress-bar"></div>
+    <button class="theme-toggle" onclick="toggleTheme()" style="display: none;">Toggle Theme</button>
+    <div class="timer" style="display: none;">25:00</div>
+    
+    <div id="slideContainer"></div>
+
+    <div class="controls" style="display: none;">
+        <button class="control-btn" onclick="prevSlide()">Previous</button>
+        <button class="control-btn" onclick="toggleEdit()">Toggle Edit</button>
+        <button class="control-btn" onclick="nextSlide()">Next</button>
+    </div>
+    <div class="slide-number">Slide 1/5</div>
+
+    <div class="click-overlay"></div>
+
+
+
+
+
+    
+
+    <script src="script.js"></script>
+    <script>
+        const slideUrls = [
+            'slides/slide1.html',
+            'slides/slide2.html',
+         
+            // Add more slides as needed
+        ];
+
+     
+        // Load all slides
+        async function loadSlides() {
+            const container = document.getElementById('slideContainer');
+            
+            for (let url of slideUrls) {
+                try {
+                    const response = await fetch(url);
+                    const html = await response.text();
+                    const div = document.createElement('div');
+                    div.className = 'slide';
+                    div.innerHTML = html;
+                    container.appendChild(div);
+                } catch (error) {
+                    console.error('Error loading slide:', error);
+                }
+            }
+
+            slides = document.querySelectorAll('.slide');
+            slides[0].classList.add('active');
+            initializeSlideshow();
+        }
+
+        function initializeSlideshow() {
+            updateTimer();
+            updateProgressBar();
+            updateSlideNumber();
+
+            // Initial animation
+            anime({
+                targets: '.slide.active',
+                scale: [0.9, 1],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+        }
+
+       
+        
+        // Load slides when page loads
+        document.addEventListener('DOMContentLoaded', loadSlides);
+    </script>
+</body>
+<div id="notification" style="
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: none;
+    font-size: 14px;
+    z-index: 1000;
+"></div>
+
+</html>
